@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Employee Information Form</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			.terminated-row {
+			background-color: white;
+			color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<button class="btn btn-dark" id="toggleButton">Show Table</button>
+		<div class="container">
+			<div class="card" id="EmployeeCard" style="display: block;" >
+				<div class="card-header">
+					<h5 class="text-center"><b>HR Master</b></h5>
+					<div class="card-body">
+						<!-- Employee Information -->
+						<h6><b>Employee Information</b></h6>
+						<div class="ValidationClass">
+							<div class="col-lg-2">
+								<input type="hidden" id="LedgerID" class="form-control" required/>
+							</div>
+							<!-- Row 1 -->
+							<div class="row">
+								<div class="col-lg-2">
+									Name
+									<input type="text" id="Name" class="form-control" pattern="^[a-zA-Z\s]+$" required maxlength="20"/>
+								</div>
+								<div class="col-lg-2">
+									Gender
+									<select class="form-control" id="Gender" frameJSON="General">
+										<option>Male</option>
+										<option>Female</option>
+										<option>Others</option>
+									</select>
+								</div>
+								<div class="col-lg-2">
+									FatherName
+									<input type="text" frameJSON="General" id="FatherName" class="form-control" pattern="^[A-Za-z\s\-]+$" required maxlength="20"/>
+								</div>
+								<div class="col-lg-2">Date of Birth
+									<input type="date" id="DOB" class="form-control" frameJSON="General"/>
+								</div>
+								<div class="col-lg-2">JoiningDate
+									<input type="date" id="DateOfJoining" class="form-control"/>
+								</div>
+								<div class="col-lg-2">
+									Email ID
+									<input type="email" id="EmailID" class="form-control" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" required/>
+								</div>
+							</div>
+							<!-- Row 2 -->
+							<div class="row">
+								<div class="col-lg-2">
+									Mobile No
+									<input type="tel" id="MobileNO" class="form-control" pattern="^\d{10}$" title="Please enter a 10-digit mobile number" required/>
+								</div>
+								<div class="col-lg-2">
+									Department
+									<input type="text" id="Department" class="form-control" required/>
+								</div>
+								<div class="col-lg-2">
+									Designation
+									<input type="text" id="Designation" class="form-control" required/>
+								</div>
+								<div class="col-lg-2">
+									Shift
+									<select class="form-control" id="Shift">
+										<option value="MORNING">Morning</option>
+										<option value="EVENING">Evening</option>
+										<option value="NIGHT">Night</option>
+									</select>
+								</div>
+								<div class="col-lg-2">
+									Contractor
+									<select class="form-control" id="ContractorID">
+										<option></option>
+										<option value="6">Neha Patel</option>
+										<option value="4">Arjun Singh</option>
+									</select>
+								</div>
+							</div>
+							<hr>
+							<!-- Personal Information -->
+							<h6><b>Personal Information</b></h6>
+							<div class="row">
+								<div class="col-lg-1" >
+									Blood
+									<select class="form-control" id="BloodGroup" frameJSON="General">
+										<option>A+</option>
+										<option>A-</option>
+										<option>B+</option>
+										<option>AB+</option>
+										<option>AB-</option>
+										<option>O+</option>
+										<option>O-</option>
+									</select>
+								</div>
+								<div class="col-lg-2">Address<br>
+									<textarea name="address" id="Address" class="form-control" rows="2" style="resize: none;" pattern="^[a-zA-Z0-9\s,'.-]*$" required></textarea>
+								</div>
+								<div class="col-lg-1">
+									Married
+									<div class="form-check form-switch">
+										<input class="form-check-input" type="checkbox" id="MaritalStatus" frameJSON="General"  Options="MARRIED,SINGLE"/>
+									</div>
+								</div>
+								<div class="col-lg-2">
+									License No
+									<input type="text" id="DrivingLicense" frameJSON="IdentityID" class="form-control" pattern="^[A-Z0-9]{1,20}$" required/>
+								</div>
+								<div class="col-lg-2">
+									VoterID
+									<input type="text" id="VoterIDNo" frameJSON="IdentityID" class="form-control" pattern="[A-Z]{3}[0-9]{7}" required/>
+								</div>
+								<div class="col-lg-2">
+									AadhaarID
+									<input type="text" id="AadhaarCardNo" frameJSON="IdentityID" class="form-control" pattern="[0-9]{12}" required/>
+								</div>
+								<div class="col-lg-2">
+									Pancard No
+									<input type="text" frameJSON="IdentityID" id="PanCardNo" class="form-control" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required/>
+								</div>
+							</div>
+							<hr>
+							<!-- Education -->
+							<h6><b>Education</b></h6>
+							<div class="row">
+								<div class="col-lg-2">Field of Study
+									<input type="text" frameJSON="Education" id="Discipline" class="form-control"/>
+								</div>
+								<div class="col-lg-2">University
+									<input type="text" frameJSON="Education" id="University" class="form-control"/>
+								</div>
+								<div class="col-lg-2">Year of Passout
+									<input type="text" frameJSON="Education" id="YearOfPassout" min="1900" max="2030" class="form-control"/>
+								</div>
+								<div class="col-lg-2">CGPA
+									<input type="number" frameJSON="Education" id="CGPA" class="form-control" step="0.01" min="0" max="10"/>
+								</div>
+								<div class="col-lg-3">Resume
+									<input type="file" class="form-control" onchange="handleFileSelect(event)">
+									<textarea id="ResumeCV" class="form-control" rows="4" style="display: none;"></textarea>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<!-- Bank Details -->
+						<h6><b>Bank Details</b></h6>
+						<div class="row" >
+							<div class="col-md-2">Account No
+								<input type="number" frameJSON="Bank" id="AccountNo" class="form-control" required/>
+							</div>
+							<div class="col-md-2">
+								IFSC Code
+								<input type="text" frameJSON="Bank" id="IFSCCode" class="form-control" required/>
+							</div>
+							<div class="col-md-2">
+								Branch
+								<input type="text" frameJSON="Bank" id="BranchName" class="form-control"/>
+							</div>
+						</div>
+						<br>
+						<!-- Submit Button -->
+						<button type="button" class="btn btn-primary" id="OnSubmit">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="d-flex justify-content-center">
+			<div class="card" style="width:fit-content; display: none;" id="EmployeeCardTable">
+				<div class="card-body">
+					<table id="EmployeeDataTable" class="display nowrap" width="100%">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Shift</th>
+								<th>Mobile</th>
+								<th>Department</th>
+								<th>Designation</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/keytable/2.6.2/js/dataTables.keyTable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script>
+	var Json = {};
+	var dataTable;
+	
+	function handleFileSelect(evt) {
+	    var fileInput = evt.target;
+	
+	    if (fileInput.files.length > 0) {
+	        var allowedExtensions = ["pdf", "doc", "docx"];
+	        var pdfFile = fileInput.files[0];
+	        var fileExtension = pdfFile.name.split('.').pop().toLowerCase();
+	
+	        if (allowedExtensions.indexOf(fileExtension) === -1) {
+	            alert('Invalid file type. Please select a PDF, DOC, or DOCX file.');
+	            $(fileInput).val('');
+	            return;
+	        }
+	
+	        var fileSize = pdfFile.size;
+	        if (fileSize > 3 * 1024 * 1024) {
+	            alert('The file size must be less than 3MB.');
+	            $(fileInput).val('');
+	            return;
+	        }
+	
+	        var reader = new FileReader();
+	
+	        reader.onload = function (e) {
+	            var fileData = e.target.result;
+	            var base64Data = btoa(fileData);
+	
+	            if (base64Data && fileSize <= 3 * 1024 * 1024) {
+	                $("#ResumeCV").val(base64Data);
+	            }
+	        };
+	        reader.readAsBinaryString(pdfFile);
+	    }
+	}
+	
+	$(document).ready(function () {
+	    var toggleButton = $("#toggleButton");
+	    var employeeCard = $("#EmployeeCard");
+	    var employeeTable = $("#EmployeeCardTable");
+	
+	    dataTable = $('#EmployeeDataTable').DataTable({
+	        scrollY: true,
+	        keys: true,
+	        ajax: {
+	            url: "http://192.168.119.196:4000/FetchHRMaster",
+	            type: "POST",
+	            data: {},
+	            dataSrc: (json) => {
+	                console.log(json);
+	                return json;
+	            }
+	        },
+	        columns: [
+	            { data: "Name"},
+	            { data: "Gender"},
+	            { data: "Shift"},
+	            { data: "MobileNO"},
+	            { data: "Department"},
+	            { data: "Designation"},
+	            { data: "Status"}
+	        ],
+	
+	        rowCallback: function (row, data) {
+	            var status = data.Status;
+	
+	            if (status === "Terminate") {
+	                $(row).addClass("terminated-row");
+	            }
+	        }
+	    });
+	
+	    dataTable.columns.adjust().draw();
+	
+	    $('#EmployeeDataTable tbody').on('click', 'tr', function () {
+	        var table = dataTable;
+	        var data = table.row(this).data();
+	        var responseData;
+	
+	        $.ajax({
+	            url: 'http://192.168.119.196:4000/FetchRowHRMaster',
+	            method: 'POST',
+	            data: { LedgerID: data.LedgerID },
+	            success: function (response) {
+	                console.log(response);
+	                responseData = response;
+	
+	                for (var key in responseData) {
+	                    var value = responseData[key];
+	                    if (typeof value === 'string' && /^(\{.*\}|\[.*\])$/.test(value)) {
+	                        value = JSON.parse(value);
+	                    }
+	                    if (typeof value === 'object') {
+	                        for (var subKey in value) {
+	                            if (typeof value[subKey] === 'string' && /^(\{.*\}|\[.*\])$/.test(value[subKey])) {
+	                                value[subKey] = JSON.parse(value[subKey]);
+	                            }
+	                            $('#' + subKey).val(value[subKey]);
+	                        }
+	                    }
+	                    else {
+	                        $('#' + key).val(value);
+	                    }
+	                }
+	
+	                console.log(responseData);
+	                $.extend(Json, responseData);
+	
+	                employeeCard.show();
+	                employeeTable.hide();
+	                toggleButton.text("Show Table");
+	            }
+	        });
+	    });
+	
+	    $('#OnSubmit').click(function () {
+	        FormJSON();
+	    });
+	
+	    function FormJSON() {
+	        var data = $('#EmployeeCard input[id],#EmployeeCard select[id],#EmployeeCard textarea[id]').toArray();
+	        var mainJSON = {};
+	
+	        var isValid = true; 
+	
+	        for (var key in data) {
+	            var inputElement = $(data[key]);
+	            var frameJSON = inputElement.attr('frameJSON');
+	            var Options = inputElement.attr('Options');
+	
+	            if (!inputElement[0].checkValidity()) {
+	                isValid = false;
+	                inputElement.addClass('is-invalid');
+	            } else {
+	                inputElement.removeClass('is-invalid');
+	            }
+	
+	            if (frameJSON) {3
+	                if (!mainJSON[frameJSON]) {
+	                    mainJSON[frameJSON] = {};
+	                }
+	
+	                if (inputElement.attr('type') === 'checkbox') {
+	                    mainJSON[frameJSON][inputElement.attr('id')] = Options === "on" ? "MARRIED" : "SINGLE";
+	                } else {
+	                    mainJSON[frameJSON][inputElement.attr('id')] = inputElement.val();
+	                }
+	            } else {
+	                mainJSON[inputElement.attr('id')] = inputElement.val();
+	            }
+	        }
+	
+	        if (isValid) {
+	            $('.ValidationClass').addClass('was-validated');
+	            Json = mainJSON;
+	            console.log(Json);
+	
+	            $.ajax({
+	                url: 'http://192.168.119.196:4000/InsertHRMaster',
+	                method: 'POST',
+	                dataType: 'json',
+	                data: Json,
+	                success: FormSubmit,
+	                error: function (error) {
+	                    console.error('Error inserting data:', error);
+	                }
+	            });
+	        }
+	    }
+		
+		function FormSubmit(data) {
+			var isSuccess = data.Notifier && data.Notifier.includes("SUCCESS");
+	
+			if (isSuccess) {
+				Swal.fire({
+				title: 'Success',
+				text: data.Message,
+				icon: 'success',
+				confirmButtonText: 'OK'
+				}).then((result) => {
+				if (result.isConfirmed) {
+					$('#EmployeeCard input, #EmployeeCard select, #EmployeeCard textarea').val('');
+					$('.ValidationClass').removeClass('was-validated');
+	
+					// Reload DT
+					dataTable.ajax.reload();
+				}
+				});
+			} else {
+	
+				Swal.fire({
+				title: 'Error',
+				text: data.Message,
+				icon: 'error',
+				confirmButtonText: 'OK'
+				});
+	
+				if (data.Notifier && data.Notifier.length > 0) {
+				const errorField = data.Notifier;
+				$('#' + errorField).removeClass('is-valid is-invalid').val('').focus();
+				}
+			}
+			}
+	
+	   toggleButton.click(function () {
+	        if (employeeCard.is(":visible")) {
+	            employeeCard.hide();
+	            employeeTable.show();
+	            toggleButton.text("Show Form");
+	        } else {
+	            employeeCard.show();
+	            employeeTable.hide();
+	            toggleButton.text("Show Table");
+	        }
+	    });
+	});
+</script>
